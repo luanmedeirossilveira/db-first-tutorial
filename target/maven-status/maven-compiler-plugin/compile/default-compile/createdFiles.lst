@@ -1,0 +1,8 @@
+org\apache\cayenne\tutorial\persistent\auto\_Painting.class
+org\apache\cayenne\tutorial\persistent\auto\_Gallery.class
+org\apache\cayenne\tutorial\persistent\PaintingInfo.class
+org\apache\cayenne\tutorial\persistent\Artist.class
+org\apache\cayenne\tutorial\persistent\Gallery.class
+org\apache\cayenne\tutorial\persistent\auto\_Artist.class
+org\apache\cayenne\tutorial\persistent\auto\_PaintingInfo.class
+org\apache\cayenne\tutorial\persistent\Painting.class
