@@ -23,7 +23,7 @@
                 <configuration>
                     <dataSource>
                         <driver>com.mysql.cj.jdbc.Driver</driver>
-                        <url>jdbc:mysql://127.0.0.1:3306/cayenne_demo?useTimezone=true&amp;serverTimezone=UTC</url>
+                        <url>jdbc:mysql://127.0.0.1:3306/cayenne_demo?useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC</url>
                         <username>root</username>
                         <password>123456</password>
                     </dataSource>
@@ -74,6 +74,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

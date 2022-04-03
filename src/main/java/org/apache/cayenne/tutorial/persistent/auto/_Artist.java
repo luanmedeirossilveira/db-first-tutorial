@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.cayenne.BaseDataObject;
 import org.apache.cayenne.exp.Property;
+import org.apache.cayenne.tutorial.persistent.Artistictechniques;
 import org.apache.cayenne.tutorial.persistent.Painting;
 
 /**
@@ -24,11 +25,13 @@ public abstract class _Artist extends BaseDataObject {
 
     public static final Property<LocalDate> DATE_OF_BIRTH = Property.create("dateOfBirth", LocalDate.class);
     public static final Property<String> NAME = Property.create("name", String.class);
+    public static final Property<Artistictechniques> ARTISTICTECHNIQUES = Property.create("artistictechniques", Artistictechniques.class);
     public static final Property<List<Painting>> PAINTINGS = Property.create("paintings", List.class);
 
     protected LocalDate dateOfBirth;
     protected String name;
 
+    protected Object artistictechniques;
     protected Object paintings;
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
@@ -49,6 +52,14 @@ public abstract class _Artist extends BaseDataObject {
     public String getName() {
         beforePropertyRead("name");
         return this.name;
+    }
+
+    public void setArtistictechniques(Artistictechniques artistictechniques) {
+        setToOneTarget("artistictechniques", artistictechniques, true);
+    }
+
+    public Artistictechniques getArtistictechniques() {
+        return (Artistictechniques)readProperty("artistictechniques");
     }
 
     public void addToPaintings(Painting obj) {
@@ -75,6 +86,8 @@ public abstract class _Artist extends BaseDataObject {
                 return this.dateOfBirth;
             case "name":
                 return this.name;
+            case "artistictechniques":
+                return this.artistictechniques;
             case "paintings":
                 return this.paintings;
             default:
@@ -94,6 +107,9 @@ public abstract class _Artist extends BaseDataObject {
                 break;
             case "name":
                 this.name = (String)val;
+                break;
+            case "artistictechniques":
+                this.artistictechniques = val;
                 break;
             case "paintings":
                 this.paintings = val;
@@ -116,6 +132,7 @@ public abstract class _Artist extends BaseDataObject {
         super.writeState(out);
         out.writeObject(this.dateOfBirth);
         out.writeObject(this.name);
+        out.writeObject(this.artistictechniques);
         out.writeObject(this.paintings);
     }
 
@@ -124,6 +141,7 @@ public abstract class _Artist extends BaseDataObject {
         super.readState(in);
         this.dateOfBirth = (LocalDate)in.readObject();
         this.name = (String)in.readObject();
+        this.artistictechniques = in.readObject();
         this.paintings = in.readObject();
     }
 
