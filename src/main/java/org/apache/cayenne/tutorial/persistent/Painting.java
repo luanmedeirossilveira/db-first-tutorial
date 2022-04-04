@@ -6,51 +6,61 @@ import org.apache.cayenne.tutorial.persistent.auto._Painting;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public class Painting extends _Painting {
 
     private static final long serialVersionUID = 1L; 
 
-    public void addNewPainting (
+    public void add (
             ObjectContext context,
-            String namePainting,
-            String descriptionPainting,
-            String nameArtist,
-            String nameArtisticTechniques,
-            String nameGallery,
-            LocalDate foundedDateGallery
+            String name,
+            String description
     ) {
-
-        // Add Gallery
-        Gallery newGallery = context.newObject(Gallery.class);
-        newGallery.setName(nameGallery);
-        newGallery.setFoundedDate(foundedDateGallery);
-
-        context.commitChanges();
-
-        // Add Artistic Techniques
-        /*Artistictechniques newArtisticTechniques = context.newObject(Az   rtistictechniques.class);
-        newArtisticTechniques.setName(nameArtisticTechniques);*/
-
-        // Add Artist
-        Artist newArtist = context.newObject(Artist.class);
-        newArtist.setName(nameArtist);
-        /*newArtist.setArtistictechniques(newArtisticTechniques);*/
 
         // Add Painting
         Painting newPainting = context.newObject(Painting.class);
-        newPainting.setName(namePainting);
-        newPainting.setDescription(descriptionPainting);
-        newPainting.setArtist(newArtist);
-        newPainting.setGallery(newGallery);
+        newPainting.setName(name);
+        newPainting.setDescription(description);
     }
 
-    public Collection<Painting> getPaintingsAll (
+    public void relateAll(
+        Painting painting,
+        Artist artist,
+        Gallery gallery
+    ) {
+        painting.setArtist(artist);
+        painting.setGallery(gallery);
+    }
+
+    public void getAll (
             ObjectContext context
     ) {
+        List<Painting> paintings = ObjectSelect.query(Painting.class).select(context);
 
-        Collection<Painting> paintings = ObjectSelect.query(Painting.class).select(context);
+        for (int i = 0; i < paintings.size(); i++) {
+            Painting p1 = paintings.get(i);
+            System.out.println("Nome da pintura: " + p1.getName());
+            System.out.println("Descrição da pintura: " + p1.getDescription());
+            System.out.println("Nome do artista: " + p1.getArtist().getName());
+            System.out.println("Nome da galeria: " + p1.getGallery().getName());
+            System.out.println("Data da fundação da galeria: " + p1.getGallery().getFoundedDate().toString());
+        }
+    }
 
-        return paintings;
+    public void getByName(
+            ObjectContext context,
+            String name
+    ) {
+        Painting p1 = ObjectSelect
+                        .query(Painting.class)
+                        .where(Painting.NAME.like(name + "%"))
+                        .selectOne(context);
+
+        System.out.println("Nome da pintura: " + p1.getName());
+        System.out.println("Descrição da pintura: " + p1.getDescription());
+        System.out.println("Nome do artista: " + p1.getArtist().getName());
+        System.out.println("Nome da galeria: " + p1.getGallery().getName());
+        System.out.println("Data da fundação da galeria: " + p1.getGallery().getFoundedDate().toString());
     }
 }

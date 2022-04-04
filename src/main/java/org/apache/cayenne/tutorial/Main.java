@@ -25,10 +25,14 @@ public class Main {
                 .build();
         ObjectContext context = cayenneRuntime.newContext();
 
-        // Pinturas
-        Painting abaporu = context.newObject(Painting.class);
+        // Declarações e Atribuições
+        Artistictechniques at1 = context.newObject(Artistictechniques.class);
+        Painting p1 = context.newObject(Painting.class);
+        Artist a1 = context.newObject(Artist.class);
+        Gallery g1 = context.newObject(Gallery.class);
 
-        abaporu.addNewPainting(
+        // Adicionando Nova Pintura
+        p1.add(
             context,
             "Abaporu",
             "Abaporu é uma pintura a óleo da artista brasileira Tarsila do Amaral." +
@@ -37,23 +41,29 @@ public class Main {
             " sendo comprada pelo colecionador argentino Eduardo Costantini por US$ 2,5 milhões, em 1995, " +
             "em um leilão realizado na Christies. Criador do Museu de arte latino-americana de " +
             "Buenos Aires (MALBA), Costantini doou sua coleção para o museu, incluindo a Abaporu." +
-            " Anteriormente a obra pertencia ao empresário brasileiro Raul Forbes, numa aquisição ocorrida em 1985.",
-            "Tarsila do Amaral",
-            "Óleo sobre Tela",
-            "MALBA",
-            LocalDate.parse("2001-09-20")
+            " Anteriormente a obra pertencia ao empresário brasileiro Raul Forbes, numa aquisição ocorrida em 1985."
         );
 
+        // Adicionando Novo(a) Artista
+        a1.add(context, "Tarsila do Amaral", LocalDate.parse("1886-09-01"));
 
+        // Adicionando Nova Galeria
+        g1.add(context, "MALBA", LocalDate.parse("2001-09-20"));
 
-        List<Painting> paintings = ObjectSelect.query(Painting.class).select(context);
+        // Adicionando Nova Técnica Artística
+        at1.add(context, "Pintura à Óleo");
 
-        for (int i = 0; i < paintings.size(); i++) {
-            Painting p1 = paintings.get(i);
-            System.out.println("Nome da pintura: " + p1.getName());
-            System.out.println("Descrição da pintura: " + p1.getDescription());
-            System.out.println("Nome do artista: " + p1.getArtist().getName());
-        }
+        // Atribuindo Técnica Artística ao Artista
+        p1.relateAll(p1, a1, g1);
+        a1.relateAll(a1, at1);
+
+        context.commitChanges();
+
+        // Consultas
+        p1.getAll(context);
+        p1.getByName(context, "Abaporu");
+        at1.getAll(context);
+        at1.getListByName(context, "Pintura");
 
         context.commitChanges();
     }
